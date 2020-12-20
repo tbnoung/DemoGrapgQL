@@ -4,7 +4,8 @@ require('./db/mongodb')
 const schema = require('./schema/schema')
 const Test = require('./schema')
 const app = express()
-
+const cors = require('cors')
+app.use(cors())
 app.use('/graphql' , graphqlHTTP({
   graphiql: true,
   schema: schema
