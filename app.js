@@ -11,6 +11,6 @@ app.use('/graphql' , graphqlHTTP({
   schema: schema
 }))
 
-app.listen(5000, () => {
-  console.log('Start Server in port ', 5000);
+app.listen(8082, () => {
+  console.log('Start Server in port ', 8082);
 })
