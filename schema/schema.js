@@ -2,6 +2,9 @@ const graphiql = require('graphql')
 const UserDataDB = require('../model/User')
 const HobbyDataDB = require('../model/Hobby')
 const PostDataDB = require('../model/Post')
+const  UserType  = require('../controller/user_controller')
+const  HobbyType   = require('../controller/hobby_controller')
+const  PostData  = require('../controller/post_controller')
 
 var _ = require('lodash')
 
@@ -14,61 +17,6 @@ const {
   GraphQLList,
   GraphQLNonNull
 } = graphiql
-
-// create type
-const UserType = new GraphQLObjectType({
-  name: 'User',
-  description: 'Document for user...',
-  fields: () => ({
-    id: {type: GraphQLString},
-    name: {type: GraphQLString},
-    age: {type: GraphQLInt},
-    profession: {type: GraphQLString},
-    posts: {
-      type: new GraphQLList(PostData),
-      resolve(parent, args) {
-        return PostDataDB.findById(parent.id)
-      }
-    },
-    hobbies: {
-      type: new graphiql.GraphQLList(HobbyType),
-      resolve(parent, args) {
-        return HobbyDataDB.findById(parent.id)
-      }
-    }
-  })
-})
-const HobbyType = new GraphQLObjectType({
-  name: 'Hobby',
-  description: 'Hobby description',
-  fields: () => ({
-    id: {type: GraphQLID},
-    title: {type: GraphQLString},
-    description: {type: GraphQLString},
-    userid: {type: GraphQLID},
-    user: {
-      type: UserType,
-      resolve(parent, args) {
-        return UserDataDB.findById(parent.userid)
-      }
-    }
-  })
-})
-const PostData = new GraphQLObjectType({
-  name: 'PostData',
-  description: 'PostData description',
-  fields: () => ({
-    id: {type: GraphQLID},
-    comment: {type: GraphQLString},
-    userid: {type: GraphQLID},
-    user: {
-      type: UserType,
-      resolve(parent, args){
-        return UserDataDB.findById(parent.userid)
-      }
-    }
-  })
-})
 
 // Root Query
 const RootQuery = new GraphQLObjectType({
@@ -168,9 +116,9 @@ const Mutations = new GraphQLObjectType({
         let removeuser = UserDataDB.findByIdAndRemove(
           args.id
         ).exec()
-        if (!removeuser) {
-          throw new('Error')
-        }
+        // if (!removeuser) {
+        //   throw new('Error')
+        // }
         return removeuser
       }
     },
@@ -216,9 +164,9 @@ const Mutations = new GraphQLObjectType({
         return removepost = PostDataDB.findByIdAndRemove(
           args.id
         ).exec()
-        if (!removepost) {
-          throw new('Error')
-        }
+        // if (!removepost) {
+        //   throw new('Error')
+        // }
         return removepost
       }
     },
@@ -267,9 +215,9 @@ const Mutations = new GraphQLObjectType({
         return removehobby = HobbyDataDB.findByIdAndRemove(
           args.id
         ).exec()
-        if (!removehobby) {
-          throw new('Error')
-        }
+        // if (!removehobby) {
+        //   throw new('Error')
+        // }
         return removehobby
       }
     },
